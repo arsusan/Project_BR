@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'arsusan/bg-remover'
+        IMAGE_NAME = 'arsu451/bg-remover'
         CONTAINER_NAME = 'bg-remover-container'
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/arsusan/Project_BR.git'
+                git branch: 'main', url: 'https://github.com/arsusan/Project_BR.git'
             }
         }
 
