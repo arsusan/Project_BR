@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'arsu451/project_br'
+        IMAGE_NAME = 'arsusan/bg-remover'
+        CONTAINER_NAME = 'bg-remover-container'
     }
 
     stages {
@@ -20,25 +21,36 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Stop Previous Container') {
             steps {
                 script {
-                    sh "docker run -d -p 5000:5000 ${IMAGE_NAME}"
+                    // Remove any running container with the same name
+                    sh "docker rm -f ${CONTAINER_NAME} || true"
                 }
             }
         }
 
-        stage('Push to Docker Hub') {
-            when {
-                expression { return false } // Change to true when ready
-            }
+        stage('Run Docker Container') {
             steps {
-                withDockerRegistry([credentialsId: 'dockerhub-creds', url: '']) {
-                    script {
-                        docker.image("${IMAGE_NAME}").push('latest')
-                    }
+                script {
+                    // Run container mapping port 5000 and mounting static files folder
+                    sh """
+                    docker run -d --name ${CONTAINER_NAME} \
+                    -p 5000:5000 \
+                    -v \$(pwd)/static:/app/static \
+                    ${IMAGE_NAME}
+                    """
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Build, Docker image creation, and deployment succeeded!"
+        }
+        failure {
+            echo "Pipeline failed. Check the logs for errors."
         }
     }
 }
