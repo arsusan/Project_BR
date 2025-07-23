@@ -1,8 +1,7 @@
 pipeline {
     agent any
-    options {
-        // Explicitly set the branch to main
-        gitBranch('main')
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build')
     }
     environment {
         IMAGE_NAME = 'arsu451/bg-remover'
@@ -12,7 +11,12 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/arsusan/Project_BR.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "*/${params.BRANCH}"]],  // Uses main branch
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/arsusan/Project_BR']]
+                ])
             }
         }
 
