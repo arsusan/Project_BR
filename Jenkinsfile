@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    options {
+        // Explicitly set the branch to main
+        gitBranch('main')
+    }
     environment {
         IMAGE_NAME = 'arsu451/bg-remover'
         CONTAINER_NAME = 'bg-remover-container'
