@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body
+    class="bg-gradient-to-r from-green-100 to-teal-200 flex items-center justify-center h-screen"
+  >
+    <div
+      class="bg-white p-10 rounded-2xl shadow-xl text-center animate-fade-in"
+    >
+      <h1 class="text-3xl font-bold mb-6 text-teal-800">Background Removed!</h1>
+      <img
+        src="{{ result_image }}"
+        class="w-96 mx-auto rounded-md shadow-lg mb-6"
+      />
+
+      <a
+        href="{{ result_image }}"
+        download="bg_removed.png"
+        class="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition mr-4"
+      >
+        Download Image
+      </a>
+
+      <a
+        href="/"
+        class="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-600 transition"
+      >
+        Try Another
+      </a>
+    </div>
+  </body>
+</html>
